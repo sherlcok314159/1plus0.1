@@ -1,6 +1,11 @@
 ---
-title: Welcome to Quartz
+title: 慢下来, 多想一会
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+曾不止一次想用 [Zettelkasten Method](https://en.wikipedia.org/wiki/Zettelkasten) 来记录和帮助自己思考，但大多因为各种缘由耽搁下来，最大的原因应该是过于追求完美，很多时候为了完美会多花费 200% 的精力去解决 1% 的问题，有些问题压根没出现，借这个 wiki 来让自己每天有慢下来思考的时间
+
+网站标题是 1+0.1，1 代表现在的我，0.1 代表每天思考记录的笔记，不求大的提升，每天有所得即为幸事
+
+- [x] 2-5
+- [ ] 2-6
+- [ ] 2-7

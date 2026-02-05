@@ -1,3 +1,44 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+table {
+  /* 1. 核心：让表格宽度随内容自适应，不再强制铺满 */
+  width: auto !important; 
+  min-width: 200px;        /* 设置一个最小宽度，防止极短内容时太小 */
+  max-width: 100%;         /* 确保在手机端不会超出屏幕范围 */
+
+  /* 2. 核心：实现整体水平居中 */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 1rem;
+
+  /* 3. 布局模式 */
+  display: table;          /* 必须是 table 模式，margin: auto 才会生效 */
+  border-collapse: collapse;
+  word-break: normal;      /* 防止单词在不该断开的地方断开 */
+
+  & thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    padding: 10px 15px;    /* 增加内边距，让内容不那么“挤” */
+  }
+
+  & td,
+  & th {
+    vertical-align: middle; /* 改为居中对齐文字，观感更好 */
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px 15px;     /* 增加单元格左右的呼吸感 */
+  }
+
+  /* 鼠标悬停和条纹背景保持不变 */
+  & tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  & tbody tr:nth-of-type(2n + 1) {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  
+  & tr:last-of-type {
+    border-bottom: 2px solid #dee2e6;
+  }
+}
