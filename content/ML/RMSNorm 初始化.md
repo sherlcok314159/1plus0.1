@@ -1,6 +1,7 @@
 ---
 tags:
   - Normalization
+  - 初始化
 ---
 
 ## 定义
