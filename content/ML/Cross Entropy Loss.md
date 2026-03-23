@@ -93,3 +93,71 @@ y = torch.tensor([0, 1, 1])
 loss_fct = CrossEntropyLoss()
 torch.testing.assert_close(loss_fct(x, y), cross_entropy_loss(x, y))
 ```
+
+那么为什么非得用 softmax 呢？对于某个样本来说，$\boldsymbol{z}$ 是 logits，$\boldsymbol{y} \in \mathbb{R}^{C}$，$C$ 是类别总数，$y_{l}=1, y_{i\neq l}=0$
+
+$$
+\begin{align*}
+\boldsymbol{z} &= \boldsymbol{Wx}\\
+\boldsymbol{a} &= \text{softmax}(\boldsymbol{z})\\
+\mathcal{L} &= -\sum_{i} y_{i}\log {a}_{i}
+\end{align*}
+$$
+
+$$
+\frac{{\partial \mathcal{L}}}{\partial {a}_{l}} = -\frac{1}{{a}_{l}}, \frac{{\partial \mathcal{L}}}{\partial a_{i\neq l}} = 0\rule{0pt}{1.4em}
+$$
+
+联系 [[求导向量篇#Softmax]]，
+
+$$
+\frac{{\partial \boldsymbol{a}}}{\partial \boldsymbol{z}} = \text{diag}(\boldsymbol{a}) - \boldsymbol{a}\boldsymbol{a^{\top}}
+$$
+
+那么：
+
+$$
+\begin{align*}
+\frac{{\partial \mathcal{L}}}{\partial z_{l}} &= \frac{{\partial \mathcal{L}}}{\partial a_{l}} \frac{{\partial a_{l}}}{\partial z_{l}} + \frac{{\partial \mathcal{L}}}{\partial a_{i \neq l}} \frac{{\partial a_{i \neq l}}}{\partial z_{l}} = a_l - 1\\
+\frac{{\partial \mathcal{L}}}{\partial z_{i \neq l}} &= \frac{{\partial \mathcal{L}}}{\partial a_{l}} \frac{{\partial a_{l}}}{\partial z_{i \neq l}} + \frac{{\partial \mathcal{L}}}{\partial a_{i \neq l}} \frac{{\partial a_{i\neq l}}}{\partial z_{i\neq l}} = a_{i\neq l}
+\end{align*}
+$$
+
+整理一下：
+
+$$
+\frac{{\partial \mathcal{L}}}{\partial \boldsymbol{z}} = \boldsymbol{a} - \boldsymbol{y}
+$$
+
+从 softmax 一路推过来发现梯度是「误差项」，合情合理，同时形式也简单，即
+
+$$
+\mathrm{d} \mathcal{L} = \left(\frac{{\partial \mathcal{L}}}{\partial \boldsymbol{z}}\right)^{\top} \mathrm{d} \boldsymbol{z} = (\boldsymbol{a} - \boldsymbol{y})^{\top}\mathrm{d}\boldsymbol{z}
+$$
+
+同时：
+
+$$
+\mathrm{d} \boldsymbol{z} = \mathrm{d}\boldsymbol{W}\boldsymbol{x}
+$$
+
+则：
+
+$$
+\begin{align*}
+\mathrm{d} \mathcal{L} &= (\boldsymbol{a} - \boldsymbol{y})^{\top}\mathrm{d}\boldsymbol{W}\boldsymbol{x} = \mathrm{Tr}((\boldsymbol{a-y})^{\top}\mathrm{d}\boldsymbol{Wx})\\
+&= \mathrm{Tr}(\boldsymbol{x}(\boldsymbol{a} - \boldsymbol{y})^{\top}\mathrm{d}\boldsymbol{W})
+\end{align*}
+$$
+
+可得：
+
+$$
+\frac{{\partial \mathcal{L}}}{\partial \boldsymbol{W}} = (\boldsymbol{a} - \boldsymbol{y}) \boldsymbol{x^{\top}}
+$$
+
+同理可得：
+
+$$
+\frac{{\partial \mathcal{L}}}{\partial \boldsymbol{x}} = \boldsymbol{W^{\top}}(\boldsymbol{a} - \boldsymbol{y})\rule{0pt}{1.4em}
+$$
