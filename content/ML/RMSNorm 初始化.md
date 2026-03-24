@@ -1,7 +1,7 @@
 ---
 tags:
-  - Normalization
   - 初始化
+  - 归一化
 ---
 
 ## 定义

@@ -73,7 +73,7 @@ WtW.diagonal().add_(1e-6 * WtW.diagonal().mean())
 
 解决湮灭问题有两种思路，一种是让 $\boldsymbol{W}$ 更接近满秩，这样 $D$ 维空间更满；另一种是换个架构去设计
 
-对于第一种思路：
+对于第一种思路，可以使用正交化：
 
-- 可以使用 Muon 来更新 $\boldsymbol{W}$，但由于词频不同，整体做正交化已知会掉点，故作为观测手段
-- 将 $\mathcal{L}_{\text{aux}} = \lambda \|\boldsymbol{W^{\top}W} - \boldsymbol{I}\|_{2}$ 加入 loss
+- 用 [[正交化#SVD 分解法]]：具体是用 Muon 来更新 $\boldsymbol{W}$，但因为词频不同，比较高频的词影响力更大，强行拉平影响力已知会更差
+- 用 [[正交化#Auxiliary Loss]]：将 $\mathcal{L}_{\text{aux}} = \lambda \|\boldsymbol{W^{\top}W} - \boldsymbol{I}\|_{2}$ 加入 loss，其中 $\boldsymbol{W}$ 是原来 lm-head weight 做列归一化的结果，$\lambda$ 先尝试 1e-4
